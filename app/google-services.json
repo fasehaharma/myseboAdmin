@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "819889087504",
+    "project_id": "mysebo-2e44c",
+    "storage_bucket": "mysebo-2e44c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:819889087504:android:ae822bb2ee04d626c11695",
+        "android_client_info": {
+          "package_name": "com.example.mysebo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "819889087504-jna0sl0520j9j7fj81adoq0ehi7e95k1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9hnGJdA2XcavTsfinxcFAbBAx7nU8SfU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "819889087504-jna0sl0520j9j7fj81adoq0ehi7e95k1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:819889087504:android:94ef990575a918e0c11695",
+        "android_client_info": {
+          "package_name": "com.example.myseboadminstaff"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "819889087504-jna0sl0520j9j7fj81adoq0ehi7e95k1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9hnGJdA2XcavTsfinxcFAbBAx7nU8SfU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "819889087504-jna0sl0520j9j7fj81adoq0ehi7e95k1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
