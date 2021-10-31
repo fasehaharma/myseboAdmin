@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -71,6 +72,17 @@ public class ReturnOutActivity extends AppCompatActivity implements View.OnClick
                 activityReturnOutBinding.tvOrganization.setText(reservation.getEventOrganization());
                 activityReturnOutBinding.tvPhone.setText(reservation.getPhoneNumber());
 
+                activityReturnOutBinding.tvPickUpBy.setText(reservation.getPickUpName());
+                activityReturnOutBinding.tvPickUpPhoneNumber.setText(reservation.getPickUpPhone());
+                activityReturnOutBinding.tvID.setText(reservation.getPickUpId());
+
+                activityReturnOutBinding.tvReturnBy.setText(reservation.getReturnName());
+                activityReturnOutBinding.tvReturnPhoneNumber.setText(reservation.getReturnPhone());
+                activityReturnOutBinding.tvReturnIDStaff.setText(reservation.getReturnIdStaff());
+                activityReturnOutBinding.tvReturnNote.setText(reservation.getNote());
+
+                
+
                 final Timestamp reserveDate = reservation.getDateStart();
                 final Date date = reserveDate.toDate();
                 String dateString = new SimpleDateFormat("dd/MM/yy").format(date);
@@ -82,17 +94,26 @@ public class ReturnOutActivity extends AppCompatActivity implements View.OnClick
                 activityReturnOutBinding.tvReturnDate.setText(rdateString);
                 activityReturnOutBinding.tvBorrowingDate.setText(dateString);
 
-                if (reservation.getStatus() == 1){
+                if (reservation.getStatus() == Reservation.STATUS_REJECT){
                     tvStatus.setText("REJECT");
-                } else if (reservation.getStatus() == 2){
+                } else if (reservation.getStatus() == Reservation.STATUS_ACCEPT){
                     tvStatus.setText("ACCEPT");
-                } else {
+                } else if(reservation.getStatus() == Reservation.STATUS_PENDING){
                     tvStatus.setText("PENDING");
+                } else if(reservation.getStatus() == Reservation.STATUS_PICKUP){
+                    tvStatus.setText("PICKUP");
+                    activityReturnOutBinding.lnPickupDetailContainer.setVisibility(View.VISIBLE);
+                } else if (reservation.getStatus() == Reservation.STATUS_RETURN){
+                    tvStatus.setText("RETURN");
+                    activityReturnOutBinding.lnReturnDetailContainer.setVisibility(View.VISIBLE);
                 }
 
             }
         });
 
+
+        btnPickUp.setOnClickListener(this);
+        btnReturn.setOnClickListener(this);
 
         rvListItem.setAdapter(assetAdapter);
         rvListItem.setLayoutManager(new LinearLayoutManager(this));
@@ -108,13 +129,15 @@ public class ReturnOutActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         if (v == btnPickUp) {
 
-            firebaseHelper.acceptReservation (reservationId);
-            finish();
+            Intent intent = new Intent(getApplicationContext(), PickUpActivity.class);
+            intent.putExtra("reservationId",reservationId);
+            startActivity(intent);
 
         } else if (v == btnReturn){
 
-            firebaseHelper.rejectReservation (reservationId);
-            finish();
+            Intent intent = new Intent(getApplicationContext(), ReturnActivity.class);
+            intent.putExtra("reservationId",reservationId);
+            startActivity(intent);
         }
 
     }

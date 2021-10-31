@@ -1,5 +1,6 @@
 package com.example.myseboadminstaff;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -11,8 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myseboadminstaff.databinding.ActivityListReservationBinding;
 import com.example.myseboadminstaff.databinding.ActivityReportBinding;
+import com.example.myseboadminstaff.reservation.ListReservationActivity;
 import com.example.myseboadminstaff.reservation.Reservation;
 import com.example.myseboadminstaff.reservation.ReservationAdapter;
+import com.example.myseboadminstaff.reservation.ReservationDetailActivity;
 
 import java.util.List;
 
@@ -40,6 +43,15 @@ public class ReportActivity extends AppCompatActivity {
         rvReservationList.setLayoutManager(new LinearLayoutManager(this));
 
         firebaseHelper.readAcceptedReservationList();
+
+        reservationAdapter.setOnReservationAdapterCallBack(new ReservationAdapter.OnReservationAdapterCallBack() {
+            @Override
+            public void onReservationCallBack(Reservation reservation) {
+                Intent intent = new Intent(ReportActivity.this, ReturnOutActivity.class);
+                intent.putExtra("reservationId",reservation.getId());
+                startActivity(intent);
+            }
+        });
 
         firebaseHelper.getReservationListMutableLiveData().observe(this, new Observer<List<Reservation>>() {
             @Override

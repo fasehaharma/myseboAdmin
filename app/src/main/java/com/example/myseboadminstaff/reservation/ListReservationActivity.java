@@ -1,5 +1,6 @@
 package com.example.myseboadminstaff.reservation;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -40,6 +41,15 @@ public class ListReservationActivity extends AppCompatActivity {
 
         rvReservationList.setAdapter(reservationAdapter);
         rvReservationList.setLayoutManager(new LinearLayoutManager(this));
+
+        reservationAdapter.setOnReservationAdapterCallBack(new ReservationAdapter.OnReservationAdapterCallBack() {
+            @Override
+            public void onReservationCallBack(Reservation reservation) {
+                Intent intent = new Intent(ListReservationActivity.this,ReservationDetailActivity.class);
+                intent.putExtra("reservationId",reservation.getId());
+                startActivity(intent);
+            }
+        });
 
         firebaseHelper.readReservationList();
 

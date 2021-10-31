@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class FirebaseHelper extends ViewModel {
 
@@ -229,7 +230,12 @@ public class FirebaseHelper extends ViewModel {
 
         CollectionReference collection = mFirestore
                 .collection("EquipmentReservation");
-        collection.whereEqualTo("status", 2).addSnapshotListener(new EventListener<QuerySnapshot>() {
+
+        List<Long> longList = new ArrayList<>();
+        longList.add(Long.valueOf(Reservation.STATUS_ACCEPT));
+        longList.add(Long.valueOf(Reservation.STATUS_PICKUP));
+
+        collection.whereIn("status", longList).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
 
@@ -254,5 +260,20 @@ public class FirebaseHelper extends ViewModel {
             }
         });
 
+    }
+
+    public void pickupReservation(String reservationId, String name, String staffId, String phone) {
+        CollectionReference collection = mFirestore
+                .collection("EquipmentReservation");
+
+        DocumentReference documentReference = collection.document(reservationId);
+        HashMap <String, Object> hashMap = new HashMap<>();
+        hashMap.put("pickUpName",name);
+        hashMap.put("pickUpId", staffId);
+        hashMap.put("pickUpPhone", phone);
+        hashMap.put("status",Reservation.STATUS_PICKUP);
+
+
+        documentReference.set(hashMap, SetOptions.merge());
     }
 }

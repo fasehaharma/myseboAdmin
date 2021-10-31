@@ -7,7 +7,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/wallpaper"
+        android:background="@drawable/wallpaper2"
         tools:context=".reservation.ReservationDetailActivity">
 
         <LinearLayout

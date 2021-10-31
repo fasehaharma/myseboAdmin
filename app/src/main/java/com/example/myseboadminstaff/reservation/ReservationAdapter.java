@@ -18,6 +18,8 @@ import java.util.List;
 
 public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.ViewHolder>  {
     private List<Reservation> reservations = new ArrayList<>();
+    private OnReservationAdapterCallBack onReservationAdapterCallBack;
+
     @NonNull
     @Override
     public ReservationAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -31,13 +33,17 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
         holder.bind(reservations.get(holder.getAdapterPosition()));
     }
 
-    public void setReservations(List<Reservation> reservations) {
-        this.reservations = reservations;
+    public void setOnReservationAdapterCallBack(OnReservationAdapterCallBack onReservationAdapterCallBack) {
+        this.onReservationAdapterCallBack = onReservationAdapterCallBack;
     }
 
     @Override
     public int getItemCount() {
         return reservations.size();
+    }
+
+    public interface  OnReservationAdapterCallBack{
+        void onReservationCallBack(Reservation reservation);
     }
 
     public void setReservationList(List<Reservation> reservations) {
@@ -55,9 +61,7 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
             binding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(v.getContext(),ReservationDetailActivity.class);
-                    intent.putExtra("reservationId",reservations.get(getAdapterPosition()).getId());
-                    v.getContext().startActivity(intent);
+                  onReservationAdapterCallBack.onReservationCallBack(reservations.get(getAdapterPosition()));
                 }
             });
         }
@@ -65,10 +69,10 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
         public void bind(Reservation reservation) {
             binding.setEquipment(reservation);
 
-            if (reservation.getStatus() == 1){
+            if (reservation.getStatus() == Reservation.STATUS_REJECT){
                 binding.tvId.setTextColor(Color.RED);
                 binding.tvEmail.setTextColor(Color.RED);
-            } else if (reservation.getStatus() == 2){
+            } else if (reservation.getStatus() == Reservation.STATUS_ACCEPT){
                 binding.tvId.setTextColor(Color.GREEN);
                 binding.tvEmail.setTextColor(Color.GREEN);
             } else {
