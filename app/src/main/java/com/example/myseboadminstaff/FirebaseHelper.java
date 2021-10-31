@@ -113,11 +113,7 @@ public class FirebaseHelper extends ViewModel {
         collection.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-//                for (DocumentSnapshot document : task.getResult()) {
-//                    Asset asset = document.toObject(Asset.class);
-//                    asset.setId(document.getId());
-//                    assetList.add(asset);
-//                }
+
                 List<Reservation> reservationList = new ArrayList<>();
 
 
@@ -226,6 +222,37 @@ public class FirebaseHelper extends ViewModel {
         hashMap.put("equipment", FieldValue.arrayUnion(assetHashMap));
 
         documentReference.update(hashMap);
+
+    }
+
+    public void readAcceptedReservationList() {
+
+        CollectionReference collection = mFirestore
+                .collection("EquipmentReservation");
+        collection.whereEqualTo("status", 2).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                List<Reservation> reservationList = new ArrayList<>();
+
+
+                for (QueryDocumentSnapshot doc : value) {
+                    Reservation reservation = doc.toObject(Reservation.class);
+                    reservation.setId(doc.getId());
+
+                    reservationList.add(reservation);
+
+                    List<Asset> equipment = reservation.getEquipment();
+
+                    Log.d(TAG, "onEvent: " + reservation.getEventName());
+
+                }
+
+
+                Log.d(TAG, "onEvent: ");
+                reservationListMutableLiveData.postValue(reservationList);
+            }
+        });
 
     }
 }
