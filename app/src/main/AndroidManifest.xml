@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MySEBOAdminStaff">
         <activity
+            android:name=".ReturnActivity"
+            android:exported="true" />
+        <activity
+            android:name=".PickUpActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ReturnOutActivity"
+            android:exported="true" />
+        <activity
             android:name=".reservation.ReservationDetailActivity"
             android:exported="true" />
         <activity

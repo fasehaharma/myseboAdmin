@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class FirebaseHelper extends ViewModel {
 
@@ -113,11 +114,7 @@ public class FirebaseHelper extends ViewModel {
         collection.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-//                for (DocumentSnapshot document : task.getResult()) {
-//                    Asset asset = document.toObject(Asset.class);
-//                    asset.setId(document.getId());
-//                    assetList.add(asset);
-//                }
+
                 List<Reservation> reservationList = new ArrayList<>();
 
 
@@ -227,5 +224,56 @@ public class FirebaseHelper extends ViewModel {
 
         documentReference.update(hashMap);
 
+    }
+
+    public void readAcceptedReservationList() {
+
+        CollectionReference collection = mFirestore
+                .collection("EquipmentReservation");
+
+        List<Long> longList = new ArrayList<>();
+        longList.add(Long.valueOf(Reservation.STATUS_ACCEPT));
+        longList.add(Long.valueOf(Reservation.STATUS_PICKUP));
+
+        collection.whereIn("status", longList).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                List<Reservation> reservationList = new ArrayList<>();
+
+
+                for (QueryDocumentSnapshot doc : value) {
+                    Reservation reservation = doc.toObject(Reservation.class);
+                    reservation.setId(doc.getId());
+
+                    reservationList.add(reservation);
+
+                    List<Asset> equipment = reservation.getEquipment();
+
+                    Log.d(TAG, "onEvent: " + reservation.getEventName());
+
+                }
+
+
+                Log.d(TAG, "onEvent: ");
+                reservationListMutableLiveData.postValue(reservationList);
+            }
+        });
+
+    }
+
+    public void pickupReservation(String reservationId, String name, String staffId, String phone) {
+        CollectionReference collection = mFirestore
+                .collection("EquipmentReservation");
+
+        DocumentReference documentReference = collection.document(reservationId);
+        HashMap <String, Object> hashMap = new HashMap<>();
+        hashMap.put("pickUpName",name);
+        hashMap.put("pickUpId", staffId);
+        hashMap.put("pickUpPhone", phone);
+        hashMap.put("status",Reservation.STATUS_PICKUP);
+
+
+        documentReference.set(hashMap, SetOptions.merge());
     }
 }

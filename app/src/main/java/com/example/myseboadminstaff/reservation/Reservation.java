@@ -16,7 +16,25 @@ public class Reservation {
     private String id;
     private String userId;
     private String phoneNumber;
+
+    private String pickUpName;
+    private String pickUpId;
+    private String pickUpPhone;
+    private Timestamp pickUpDate;
+
+    private String returnName;
+    private String returnIdStaff;
+    private String returnPhone;
+    private String note;
+    private Timestamp returnTheDate;
+
     private int status;
+
+    public static final int STATUS_PENDING = 0;
+    public static final int STATUS_REJECT = 1;
+    public static final int STATUS_ACCEPT = 2;
+    public static final int STATUS_PICKUP = 3;
+    public static final int STATUS_RETURN = 4;
 
 
     public int getStatus() {
@@ -81,5 +99,86 @@ public class Reservation {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getPickUpName() {
+        return pickUpName;
+    }
+
+    public void setPickUpName(String pickUpName) {
+        this.pickUpName = pickUpName;
+    }
+
+    public String getPickUpId() {
+        return pickUpId;
+    }
+
+    public void setPickUpId(String pickUpId) {
+        this.pickUpId = pickUpId;
+    }
+
+    public String getPickUpPhone() {
+        return pickUpPhone;
+    }
+
+    public void setPickUpPhone(String pickUpPhone) {
+        this.pickUpPhone = pickUpPhone;
+    }
+
+    public Timestamp getPickUpDate() {
+        return pickUpDate;
+    }
+
+    public void setPickUpDate(Timestamp pickUpDate) {
+        this.pickUpDate = pickUpDate;
+    }
+
+
+    public String getReturnName() {
+        return returnName;
+    }
+
+    public void setReturnName(String pickUpName) {
+        this.returnName = returnName;
+    }
+
+    public String getReturnPhone() {
+        return returnPhone;
+    }
+
+    public void setReturnPhone(String returnPhone) {
+        this.returnPhone = returnPhone;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getReturnIdStaff() {
+        return returnIdStaff;
+    }
+
+    public void setReturnIdStaff(String returnIdStaff) {
+        this.pickUpId = returnIdStaff;
+    }
+
+    public Timestamp getReturnTheDate() {
+        return returnTheDate;
+    }
+
+    public void setReturnTheDate(Timestamp returnTheDate) {
+        this.returnTheDate = returnTheDate;
     }
 }
