@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import com.example.myseboadminstaff.asset.AssetActivity;
 import com.example.myseboadminstaff.databinding.ActivityMainBinding;
 import com.example.myseboadminstaff.reservation.ListReservationActivity;
+import com.example.myseboadminstaff.usermanagement.ListUserActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnReport;
     private Button btnLogout;
     private Button btnAsset;
+    private Button btnUser;
 
 
     @Override
@@ -34,12 +36,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnReport = activityMainBinding.btnViewReport;
         btnLogout = activityMainBinding.btnLogout;
         btnAsset = activityMainBinding.btnAsset;
+        btnUser = activityMainBinding.btnUser;
 
 
         btnListReservation.setOnClickListener(this);
         btnReport.setOnClickListener(this);
         btnLogout.setOnClickListener(this);
         btnAsset.setOnClickListener(this);
+        btnUser.setOnClickListener(this);
 
     }
 
@@ -63,6 +67,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         } else if (v == btnAsset) {
             Intent intent = new Intent(getApplicationContext(), AssetActivity.class);
+            startActivity(intent);
+        } else if (v == btnUser){
+            Intent intent = new Intent(getApplicationContext(), ListUserActivity.class);
             startActivity(intent);
         }
 

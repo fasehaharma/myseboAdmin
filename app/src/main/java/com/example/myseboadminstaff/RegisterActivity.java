@@ -24,7 +24,7 @@ import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText eName, eEmail, ePassword, ePhone;
+    private EditText eName, eEmail, ePassword, ePhone, eStaffId;
     private Button eRegister;
     private TextView eLogin;
     private ProgressBar progressBar;
@@ -45,6 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
         ePhone = findViewById(R.id.etPhone);
         eRegister = findViewById(R.id.btnRegister);
         eLogin = findViewById(R.id.tvNewAcc);
+        eStaffId = findViewById(R.id.etStaffID);
 
         fAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progressBar);
@@ -59,6 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = eEmail.getText().toString().trim();
                 String password = ePassword.getText().toString().trim();
+                String staffId = eStaffId.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email)) {
                     eEmail.setError("Email is Required.");
@@ -75,6 +77,11 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
+                if (TextUtils.isEmpty(staffId)) {
+                    eStaffId.setError("Staff ID is Required.");
+                    return;
+                }
+
                 progressBar.setVisibility(View.VISIBLE);
 
                 //register the user in firebase
@@ -85,16 +92,20 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             String name =eName.getText().toString();
                             String phone = ePhone.getText().toString();
+                            String staffId = eStaffId.getText().toString();
 
                             Map<String, Object> newData = new HashMap<>();
                             newData.put("id",fAuth.getCurrentUser().getUid());
                             newData.put("name",name);
                             newData.put("email",email);
+                            newData.put("staffId", staffId);
                             newData.put("phone",phone);
+                            newData.put("verify", false);
+                            newData.put("type", "admin");
 
                             firebaseFirestore.collection("user").document(fAuth.getCurrentUser().getUid()).set(newData);
                             Toast.makeText(RegisterActivity.this, "User Created.", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
 
                         } else {
                             Toast.makeText(RegisterActivity.this, "Error!" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

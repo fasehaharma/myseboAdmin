@@ -54,7 +54,8 @@ public class ReturnActivity extends AppCompatActivity implements View.OnClickLis
             String phone = tietReturnPhone.getText().toString();
             String note = tietReturnNote.getText().toString();
 
-            firebaseHelper.pickupReservation(reservationId,name, staffId,phone);
+            firebaseHelper.returnReservation(reservationId,name, staffId,phone, note);
+            finish();
 
         }
     }

@@ -7,6 +7,7 @@
         <entry key="..\:/Users/faseh/AndroidStudioProjects/MySEBOAdminStaff/app/src/main/res/layout/activity_asset.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/faseh/AndroidStudioProjects/MySEBOAdminStaff/app/src/main/res/layout/activity_edit_asset.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/faseh/AndroidStudioProjects/MySEBOAdminStaff/app/src/main/res/layout/activity_list_reservation.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/faseh/AndroidStudioProjects/MySEBOAdminStaff/app/src/main/res/layout/activity_list_user.xml" value="0.25271739130434784" />
         <entry key="..\:/Users/faseh/AndroidStudioProjects/MySEBOAdminStaff/app/src/main/res/layout/activity_login.xml" value="0.264" />
         <entry key="..\:/Users/faseh/AndroidStudioProjects/MySEBOAdminStaff/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/faseh/AndroidStudioProjects/MySEBOAdminStaff/app/src/main/res/layout/activity_pick_up.xml" value="0.25416666666666665" />
@@ -16,9 +17,12 @@
         <entry key="..\:/Users/faseh/AndroidStudioProjects/MySEBOAdminStaff/app/src/main/res/layout/activity_reservation_detail.xml" value="0.33564814814814814" />
         <entry key="..\:/Users/faseh/AndroidStudioProjects/MySEBOAdminStaff/app/src/main/res/layout/activity_return.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/faseh/AndroidStudioProjects/MySEBOAdminStaff/app/src/main/res/layout/activity_return_out.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/faseh/AndroidStudioProjects/MySEBOAdminStaff/app/src/main/res/layout/activity_user_detail.xml" value="0.25271739130434784" />
         <entry key="..\:/Users/faseh/AndroidStudioProjects/MySEBOAdminStaff/app/src/main/res/layout/item_asset.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/faseh/AndroidStudioProjects/MySEBOAdminStaff/app/src/main/res/layout/item_reservation.xml" value="0.264" />
         <entry key="..\:/Users/faseh/AndroidStudioProjects/MySEBOAdminStaff/app/src/main/res/layout/item_return_out.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/faseh/AndroidStudioProjects/MySEBOAdminStaff/app/src/main/res/layout/item_user.xml" value="0.23550724637681159" />
+        <entry key="..\:/Users/faseh/AndroidStudioProjects/MySEBOAdminStaff/app/src/main/res/layout/user_adapter.xml" value="0.25271739130434784" />
       </map>
     </option>
   </component>

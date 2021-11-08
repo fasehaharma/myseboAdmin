@@ -1,6 +1,9 @@
 package com.example.myseboadminstaff;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,8 +12,10 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.myseboadminstaff.asset.Asset;
 import com.example.myseboadminstaff.reservation.Reservation;
+import com.example.myseboadminstaff.usermanagement.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -18,6 +23,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
@@ -36,7 +42,9 @@ public class FirebaseHelper extends ViewModel {
 
     private MutableLiveData<List<Asset>> assetListMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Reservation>> reservationListMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<User>> userListMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<Reservation> reservationMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<User> userDetailMutableLiveData = new MutableLiveData<>();
 
     public FirebaseHelper() {
         mFirestore = FirebaseFirestore.getInstance();
@@ -53,11 +61,7 @@ public class FirebaseHelper extends ViewModel {
         collection.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-//                for (DocumentSnapshot document : task.getResult()) {
-//                    Asset asset = document.toObject(Asset.class);
-//                    asset.setId(document.getId());
-//                    assetList.add(asset);
-//                }
+
                 List<Asset> assetList = new ArrayList<>();
 
 
@@ -234,6 +238,7 @@ public class FirebaseHelper extends ViewModel {
         List<Long> longList = new ArrayList<>();
         longList.add(Long.valueOf(Reservation.STATUS_ACCEPT));
         longList.add(Long.valueOf(Reservation.STATUS_PICKUP));
+        longList.add(Long.valueOf(Reservation.STATUS_RETURN));
 
         collection.whereIn("status", longList).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -262,7 +267,7 @@ public class FirebaseHelper extends ViewModel {
 
     }
 
-    public void pickupReservation(String reservationId, String name, String staffId, String phone) {
+    public void pickupReservation(String reservationId, String name, String staffId, String phone, String pickUpDate) {
         CollectionReference collection = mFirestore
                 .collection("EquipmentReservation");
 
@@ -272,6 +277,106 @@ public class FirebaseHelper extends ViewModel {
         hashMap.put("pickUpId", staffId);
         hashMap.put("pickUpPhone", phone);
         hashMap.put("status",Reservation.STATUS_PICKUP);
+
+
+        documentReference.set(hashMap, SetOptions.merge());
+    }
+
+    public void returnReservation(String reservationId, String name, String staffId, String phone, String note) {
+        CollectionReference collection = mFirestore
+                .collection("EquipmentReservation");
+
+        DocumentReference documentReference = collection.document(reservationId);
+        HashMap <String, Object> hashMap = new HashMap<>();
+        hashMap.put("returnName",name);
+        hashMap.put("returnIdStaff", staffId);
+        hashMap.put("returnPhone", phone);
+        hashMap.put("note", note);
+        hashMap.put("status",Reservation.STATUS_RETURN);
+
+
+        documentReference.set(hashMap, SetOptions.merge());
+    }
+
+    public MutableLiveData<List<User>> getUserListMutableLiveData() {
+        return userListMutableLiveData;
+    }
+
+    public void getUserList(){
+        Query collection = mFirestore
+                .collection("user").whereEqualTo("type", "admin");
+
+        collection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                List<User> userList = new ArrayList<>();
+                QuerySnapshot result = task.getResult();
+
+                for (QueryDocumentSnapshot doc : result) {
+                    User user = doc.toObject(User.class);
+                    userList.add(user);
+                }
+
+                userListMutableLiveData.postValue(userList);
+            }
+        });
+    }
+
+    public MutableLiveData<User> getUserDetailMutableLiveData() {
+        return userDetailMutableLiveData;
+    }
+
+    public void getUserDetail(String userId) {
+        CollectionReference collection = mFirestore
+                .collection("user");
+
+        collection.document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                User user = task.getResult().toObject(User.class);
+                userDetailMutableLiveData.postValue(user);
+            }
+        });
+    }
+
+    public void checkUserBeforeLogin(String uid, Context context) {
+        CollectionReference collection = mFirestore
+                .collection("user");
+
+        collection.document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                User user = task.getResult().toObject(User.class);
+                if (user.getVerify()){
+                    Intent intent = new Intent(context, MainActivity.class);
+                    context.startActivity(intent);
+                } else{
+                    Toast.makeText(context, "Please wait for verify", Toast.LENGTH_SHORT).show();
+                    FirebaseAuth.getInstance().signOut();
+                }
+            }
+        });
+    }
+
+    public void acceptAdmin(String userId) {
+        CollectionReference collection = mFirestore
+                .collection("user");
+
+        DocumentReference documentReference = collection.document(userId);
+        HashMap <String, Object> hashMap = new HashMap<>();
+        hashMap.put("verify",true);
+
+
+        documentReference.set(hashMap, SetOptions.merge());
+    }
+
+    public void rejectAdmin(String userId) {
+        CollectionReference collection = mFirestore
+                .collection("user");
+
+        DocumentReference documentReference = collection.document(userId);
+        HashMap <String, Object> hashMap = new HashMap<>();
+        hashMap.put("verify",false);
 
 
         documentReference.set(hashMap, SetOptions.merge());

@@ -36,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private FirebaseAuth fAuth;
 
+    private FirebaseHelper firebaseHelper = new FirebaseHelper();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +47,11 @@ public class LoginActivity extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
 
         if(fAuth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            firebaseHelper.checkUserBeforeLogin(fAuth.getCurrentUser().getUid(), LoginActivity.this);
         }
 
-        eEmail = activityLoginBinding.tvEmail;
-        ePassword = activityLoginBinding.tvPassword;
+        eEmail = activityLoginBinding.email;
+        ePassword = activityLoginBinding.password;
         eCreateAccount = activityLoginBinding.tvCreateAcc;
         eForgot = activityLoginBinding.tvResetPassword;
         progressBar = activityLoginBinding.progressBar1;
@@ -86,7 +88,10 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(LoginActivity.this, "Logged in successfully.", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+ //                           startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
+                            firebaseHelper.checkUserBeforeLogin(fAuth.getCurrentUser().getUid(), LoginActivity.this);
+
                         } else {
                             Toast.makeText(LoginActivity.this, "Error!" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);

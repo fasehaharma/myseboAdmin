@@ -84,12 +84,16 @@ public class ReservationDetailActivity extends AppCompatActivity implements View
                 activityReservationDetailBinding.tvReturnDate.setText(rdateString);
                 activityReservationDetailBinding.tvBorrowingDate.setText(dateString);
 
-                if (reservation.getStatus() == 1){
+                if (reservation.getStatus() == Reservation.STATUS_REJECT){
                     tvStatus.setText("REJECT");
-                } else if (reservation.getStatus() == 2){
+                } else if (reservation.getStatus() == Reservation.STATUS_ACCEPT){
                     tvStatus.setText("ACCEPT");
-                } else {
+                } else if (reservation.getStatus() == Reservation.STATUS_PENDING){
                     tvStatus.setText("PENDING");
+                } else if (reservation.getStatus() == Reservation.STATUS_PICKUP){
+                    tvStatus.setText("PICK-UP");
+                } else if (reservation.getStatus() == Reservation.STATUS_RETURN){
+                    tvStatus.setText("RETURN");
                 }
 
             }

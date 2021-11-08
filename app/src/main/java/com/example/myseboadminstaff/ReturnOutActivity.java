@@ -73,6 +73,16 @@ public class ReturnOutActivity extends AppCompatActivity implements View.OnClick
                 activityReturnOutBinding.tvPhone.setText(reservation.getPhoneNumber());
 
                 activityReturnOutBinding.tvPickUpBy.setText(reservation.getPickUpName());
+
+                final Timestamp pickupDate = reservation.getPickUpDate();
+                if (pickupDate != null) {
+                    final Date pdate = pickupDate.toDate();
+                    String pdateString = new SimpleDateFormat("dd/MM/yy").format(pdate);
+                    activityReturnOutBinding.tvPickUpDate.setText(pdateString);
+                } else{
+                    activityReturnOutBinding.tvPickUpDate.setText("Not Pickup Yet");
+                }
+
                 activityReturnOutBinding.tvPickUpPhoneNumber.setText(reservation.getPickUpPhone());
                 activityReturnOutBinding.tvID.setText(reservation.getPickUpId());
 
@@ -106,6 +116,7 @@ public class ReturnOutActivity extends AppCompatActivity implements View.OnClick
                 } else if (reservation.getStatus() == Reservation.STATUS_RETURN){
                     tvStatus.setText("RETURN");
                     activityReturnOutBinding.lnReturnDetailContainer.setVisibility(View.VISIBLE);
+                    activityReturnOutBinding.lnPickupDetailContainer.setVisibility(View.VISIBLE);
                 }
 
             }

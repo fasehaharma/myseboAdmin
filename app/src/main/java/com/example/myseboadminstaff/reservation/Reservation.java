@@ -146,7 +146,7 @@ public class Reservation {
         return returnName;
     }
 
-    public void setReturnName(String pickUpName) {
+    public void setReturnName(String returnName) {
         this.returnName = returnName;
     }
 
@@ -171,7 +171,7 @@ public class Reservation {
     }
 
     public void setReturnIdStaff(String returnIdStaff) {
-        this.pickUpId = returnIdStaff;
+        this.returnIdStaff = returnIdStaff;
     }
 
     public Timestamp getReturnTheDate() {

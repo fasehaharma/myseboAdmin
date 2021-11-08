@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MySEBOAdminStaff">
         <activity
+            android:name=".usermanagement.UserDetailActivity"
+            android:exported="true" />
+        <activity
+            android:name=".usermanagement.ListUserActivity"
+            android:exported="true" />
+        <activity
             android:name=".ReturnActivity"
             android:exported="true" />
         <activity
