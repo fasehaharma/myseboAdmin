@@ -28,8 +28,11 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -271,6 +274,7 @@ public class FirebaseHelper extends ViewModel {
         CollectionReference collection = mFirestore
                 .collection("EquipmentReservation");
 
+
         DocumentReference documentReference = collection.document(reservationId);
         HashMap <String, Object> hashMap = new HashMap<>();
         hashMap.put("pickUpName",name);
@@ -278,11 +282,17 @@ public class FirebaseHelper extends ViewModel {
         hashMap.put("pickUpPhone", phone);
         hashMap.put("status",Reservation.STATUS_PICKUP);
 
+        try {
+            Date date=new SimpleDateFormat("yyyy-MM-dd").parse(pickUpDate);
+            hashMap.put("pickUpDate", date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         documentReference.set(hashMap, SetOptions.merge());
     }
 
-    public void returnReservation(String reservationId, String name, String staffId, String phone, String note) {
+    public void returnReservation(String reservationId, String name, String staffId, String phone, String note, String returnDate) {
         CollectionReference collection = mFirestore
                 .collection("EquipmentReservation");
 
@@ -293,6 +303,13 @@ public class FirebaseHelper extends ViewModel {
         hashMap.put("returnPhone", phone);
         hashMap.put("note", note);
         hashMap.put("status",Reservation.STATUS_RETURN);
+
+        try {
+            Date date=new SimpleDateFormat("yyyy-MM-dd").parse(returnDate);
+            hashMap.put("returnTheDate", date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
 
         documentReference.set(hashMap, SetOptions.merge());

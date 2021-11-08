@@ -87,6 +87,16 @@ public class ReturnOutActivity extends AppCompatActivity implements View.OnClick
                 activityReturnOutBinding.tvID.setText(reservation.getPickUpId());
 
                 activityReturnOutBinding.tvReturnBy.setText(reservation.getReturnName());
+
+                final Timestamp returnbyDate = reservation.getReturnTheDate();
+                if (returnbyDate != null) {
+                    final Date rbdate = returnbyDate.toDate();
+                    String rbdateString = new SimpleDateFormat("dd/MM/yy").format(rbdate);
+                    activityReturnOutBinding.tvReturnDateItem.setText(rbdateString);
+                } else{
+                    activityReturnOutBinding.tvReturnDateItem.setText("Not Return Yet");
+                }
+
                 activityReturnOutBinding.tvReturnPhoneNumber.setText(reservation.getReturnPhone());
                 activityReturnOutBinding.tvReturnIDStaff.setText(reservation.getReturnIdStaff());
                 activityReturnOutBinding.tvReturnNote.setText(reservation.getNote());
