@@ -70,13 +70,10 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
             binding.setEquipment(reservation);
 
             if (reservation.getStatus() == Reservation.STATUS_REJECT){
-                binding.tvId.setTextColor(Color.RED);
                 binding.tvEmail.setTextColor(Color.RED);
             } else if (reservation.getStatus() == Reservation.STATUS_ACCEPT){
-                binding.tvId.setTextColor(Color.GREEN);
                 binding.tvEmail.setTextColor(Color.GREEN);
             } else {
-                binding.tvId.setTextColor(Color.BLACK);
                 binding.tvEmail.setTextColor(Color.BLACK);
             }
         }

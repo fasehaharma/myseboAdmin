@@ -22,6 +22,7 @@ public class AssetAdapter extends RecyclerView.Adapter<AssetAdapter.ViewHolder> 
 
     public static final int TYPE_EDIT_ASSET = 1001;
     public static final int TYPE_EDIT_RESERVATION = 1002;
+    public static final int TYPE_REPORT = 1003;
     private String reservationId;
 
     public int getType() {
@@ -74,6 +75,10 @@ public class AssetAdapter extends RecyclerView.Adapter<AssetAdapter.ViewHolder> 
             this.tvDelete = binding.tvDelete;
             this.tvEdit = binding.tvEdit;
 
+            if (type == TYPE_REPORT){
+                tvDelete.setVisibility(View.GONE);
+                tvEdit.setVisibility(View.GONE);
+            }
 
             tvEdit.setOnClickListener(new View.OnClickListener() {
                 @Override

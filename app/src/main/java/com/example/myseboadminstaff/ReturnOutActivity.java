@@ -57,7 +57,7 @@ public class ReturnOutActivity extends AppCompatActivity implements View.OnClick
         btnReturn.setOnClickListener(this);
 
         assetAdapter = new AssetAdapter();
-        assetAdapter.setType(AssetAdapter.TYPE_EDIT_RESERVATION);
+        assetAdapter.setType(AssetAdapter.TYPE_REPORT);
 
 
         firebaseHelper.readReservationDetail(reservationId);

@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -95,7 +96,9 @@ public class RegisterActivity extends AppCompatActivity {
                             String staffId = eStaffId.getText().toString();
 
                             Map<String, Object> newData = new HashMap<>();
-                            newData.put("id",fAuth.getCurrentUser().getUid());
+                            final FirebaseUser currentUser = fAuth.getCurrentUser();
+
+                            newData.put("id", currentUser.getUid());
                             newData.put("name",name);
                             newData.put("email",email);
                             newData.put("staffId", staffId);
@@ -103,7 +106,9 @@ public class RegisterActivity extends AppCompatActivity {
                             newData.put("verify", false);
                             newData.put("type", "admin");
 
-                            firebaseFirestore.collection("user").document(fAuth.getCurrentUser().getUid()).set(newData);
+                            currentUser.sendEmailVerification();
+
+                            firebaseFirestore.collection("user").document(currentUser.getUid()).set(newData);
                             Toast.makeText(RegisterActivity.this, "User Created.", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
 
