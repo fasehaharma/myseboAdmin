@@ -2,6 +2,7 @@ package com.example.myseboadminstaff;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -12,8 +13,11 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.myseboadminstaff.asset.Asset;
 import com.example.myseboadminstaff.reservation.Reservation;
+import com.example.myseboadminstaff.reservation.ReservationDetailActivity;
 import com.example.myseboadminstaff.usermanagement.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -27,7 +31,12 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -397,5 +406,45 @@ public class FirebaseHelper extends ViewModel {
 
 
         documentReference.set(hashMap, SetOptions.merge());
+    }
+
+    public void viewPDFLetter(String reservationId) {
+
+    }
+
+    public void viewPDFID(String reservationId, Context context) throws IOException {
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+
+        StorageReference storageRef = storage.getReference();
+        StorageReference islandRef = storageRef.child("Letter/93904605-ef48-40a1-b5fb-b309ed2d643a.pdf");
+
+        File localFile = File.createTempFile("letter3", ".pdf");
+        islandRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                Uri uri = task.getResult();
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                context.startActivity(intent);
+
+            }
+        });
+
+
+//        islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                Log.d(TAG, "onSuccess: Success Download" + localFile.getPath());
+//                Intent intent = new Intent(Intent.ACTION_VIEW);
+//                intent.setDataAndType(Uri.fromFile(localFile), "application/pdf");
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//                context.startActivity(intent);
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception exception) {
+//                exception.printStackTrace();
+//            }
+//        });
     }
 }

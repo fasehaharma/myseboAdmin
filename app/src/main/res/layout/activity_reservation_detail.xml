@@ -130,11 +130,66 @@
                 android:layout_weight="1" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/ln_pdf_letter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/ln_status">
+
+            <TextView
+                android:id="@+id/textView35"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Letter PDF:" />
+
+            <TextView
+                android:id="@+id/tvPDFLetter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View PDF"
+                android:textColor="@color/link_blue"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ln_pdf_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/ln_pdf_letter">
+
+            <TextView
+                android:id="@+id/textView36"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="ID STAFF/STUDENT PDF:" />
+
+            <TextView
+                android:id="@+id/tvPDF_ID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View PDF"
+                android:textColor="@color/link_blue"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="List of Equipment"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ln_pdf_id" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvListItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/ln_status"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title"
             tools:layout_editor_absoluteX="1dp"
             tools:layout_editor_absoluteY="39dp" />
 

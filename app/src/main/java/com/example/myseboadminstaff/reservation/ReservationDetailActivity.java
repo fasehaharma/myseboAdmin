@@ -19,6 +19,7 @@ import com.example.myseboadminstaff.databinding.ActivityAssetBinding;
 import com.example.myseboadminstaff.databinding.ActivityReservationDetailBinding;
 import com.google.firebase.Timestamp;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -33,7 +34,10 @@ public class ReservationDetailActivity extends AppCompatActivity implements View
     private TextView tvStatus;
     private TextView tvBorrowingDate;
     private TextView tvReturnDate;
+    private TextView tvPDFLetter;
+    private TextView tvPDFID;
     private RecyclerView rvListItem;
+
 
     private FirebaseHelper firebaseHelper = new FirebaseHelper();
     private ActivityReservationDetailBinding activityReservationDetailBinding;
@@ -52,10 +56,14 @@ public class ReservationDetailActivity extends AppCompatActivity implements View
         btnReject = activityReservationDetailBinding.btnReject;
         rvListItem = activityReservationDetailBinding.rvListItem;
         tvStatus = activityReservationDetailBinding.tvStatus;
+        tvPDFLetter = activityReservationDetailBinding.tvPDFLetter;
+        tvPDFID = activityReservationDetailBinding.tvPDFID;
 
 
         btnAccept.setOnClickListener(this);
         btnReject.setOnClickListener(this);
+        tvPDFLetter.setOnClickListener(this);
+        tvPDFID.setOnClickListener(this);
 
         assetAdapter = new AssetAdapter();
         assetAdapter.setType(AssetAdapter.TYPE_EDIT_RESERVATION);
@@ -121,6 +129,20 @@ public class ReservationDetailActivity extends AppCompatActivity implements View
 
             firebaseHelper.rejectReservation (reservationId);
             finish();
+
+        } else if (v == tvPDFLetter) {
+
+            firebaseHelper.viewPDFLetter (reservationId);
+
+        } else if (v == tvPDFID){
+
+            try {
+                firebaseHelper.viewPDFID (reservationId, this);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
     }
+
 }
