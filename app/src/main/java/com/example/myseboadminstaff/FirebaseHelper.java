@@ -408,16 +408,34 @@ public class FirebaseHelper extends ViewModel {
         documentReference.set(hashMap, SetOptions.merge());
     }
 
-    public void viewPDFLetter(String reservationId) {
-
-    }
-
-    public void viewPDFID(String reservationId, Context context) throws IOException {
+    public void viewPDFLetter(Reservation reservation, Context context) throws IOException{
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
+        String letterPath = reservation.getLetterPath();
+
 
         StorageReference storageRef = storage.getReference();
-        StorageReference islandRef = storageRef.child("Letter/93904605-ef48-40a1-b5fb-b309ed2d643a.pdf");
+        StorageReference islandRef = storageRef.child(letterPath);
+
+        File localFile = File.createTempFile("letter3", ".pdf");
+        islandRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                Uri uri = task.getResult();
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                context.startActivity(intent);
+
+            }
+        });
+    }
+
+    public void viewPDFID(Reservation reservation, Context context) throws IOException {
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        String idPath = reservation.getIdPath();
+
+        StorageReference storageRef = storage.getReference();
+        StorageReference islandRef = storageRef.child(idPath);
 
         File localFile = File.createTempFile("letter3", ".pdf");
         islandRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {

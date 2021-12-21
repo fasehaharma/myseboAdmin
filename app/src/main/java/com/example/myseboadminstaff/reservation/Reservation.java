@@ -30,6 +30,9 @@ public class Reservation {
 
     private int status;
 
+    private String letterPath;
+    private String idPath;
+
     public static final int STATUS_PENDING = 0;
     public static final int STATUS_REJECT = 1;
     public static final int STATUS_ACCEPT = 2;
@@ -180,5 +183,21 @@ public class Reservation {
 
     public void setReturnTheDate(Timestamp returnTheDate) {
         this.returnTheDate = returnTheDate;
+    }
+
+    public String getLetterPath() {
+        return letterPath;
+    }
+
+    public void setLetterPath(String letterPath) {
+        this.letterPath = letterPath;
+    }
+
+    public String getIdPath() {
+        return idPath;
+    }
+
+    public void setIdPath(String idPath) {
+        this.idPath = idPath;
     }
 }

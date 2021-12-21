@@ -43,6 +43,7 @@ public class ReservationDetailActivity extends AppCompatActivity implements View
     private ActivityReservationDetailBinding activityReservationDetailBinding;
     private AssetAdapter assetAdapter;
     private String reservationId;
+    private Reservation reservation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,8 @@ public class ReservationDetailActivity extends AppCompatActivity implements View
         firebaseHelper.getReservationMutableLiveData().observe(this, new Observer<Reservation>() {
             @Override
             public void onChanged(Reservation reservation) {
+                ReservationDetailActivity.this.reservation = reservation;
+
                 assetAdapter.setAssetList(reservation.getEquipment());
                 assetAdapter.notifyDataSetChanged();
                 assetAdapter.setReservationId(reservationId);
@@ -132,12 +135,20 @@ public class ReservationDetailActivity extends AppCompatActivity implements View
 
         } else if (v == tvPDFLetter) {
 
-            firebaseHelper.viewPDFLetter (reservationId);
+            try {
+                if (reservation != null) {
+                    firebaseHelper.viewPDFLetter(reservation, this);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         } else if (v == tvPDFID){
 
             try {
-                firebaseHelper.viewPDFID (reservationId, this);
+                if (reservation != null) {
+                    firebaseHelper.viewPDFID(reservation, this);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
